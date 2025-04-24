@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in customers</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <h2>Trade-in customers</h2>
+    <p><span th:text="'Found customers: ' + ${customersPage.totalElements}"></span></p>
+    <table>
+        <thead>
+        <th width="2%">Customer ID</th>
+        <th width="40%">Full name</th>
+        <th width="20%">Email</th>
+        <th width="15%">Phone</th>
+        <th width="23%">Operations</th>
+        </thead>
+        <tbody>
+        <tr th:each="customer:${customers}">
+            <td>
+                <a th:href="@{/customer/{id}/(id=${customer.id})}" title = "edit customer">
+                    <span th:text="${customer.id}"></span>
+                </a>
+            </td>
+            <td class="operations">
+                <span th:text="${customer.firstname}"></span> <span th:text="${customer.lastname}"></span>
+            </td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phone}">no</td>
+            <td class="operations">
+                <span>
+                    <form role="form" th:action="@{/offer/list}" method="get">
+                        <input type="hidden" name="customerid" th:value="${customer.id}"/>
+                        <input type="submit" value="offers">
+                    </form>
+                </span>
+                <span>
+                    <form role="form" th:action="@{/customer/{id}(id=${customer.id})}" method="get">
+                        <input type="submit" value="edit">
+                    </form>
+                </span>
+                <span>
+                    <form role="form" th:action="@{/customer/{id}/delete(id=${customer.id})}" method="post">
+                        <input type="submit" value="delete" onclick="return confirm('Are you sure you want to delete this item?');">
+                    </form>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+        <!-- <form role="form" action="/customer/new" method="post"> -->
+        <form th:action="@{/customer/new}" th:object="${newCustomer}" method="post">
+            <tfoot>
+                <td></td>
+                <td class="operations">
+                    <span>
+                        <!--<input type="text" name="firstname" value="" placeholder="New customer firstname"/>-->
+                        <input type="text" th:field="*{firstname}"/>
+                        <div class="input_error" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">Name Error</div>
+                    </span>
+                    <span>
+                        <!-- <input type="text" name="lastname" value="" placeholder="New customer lastname"/> -->
+                        <input type="text" th:field="*{lastname}"/>
+                        <div class="input_error" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Name Error</div>
+                    </span>
+                </td>
+                <td>
+                    <!-- <input type="text" name="email" value="" placeholder="New customer email"/> -->
+                    <input type="text" th:field="*{email}"/>
+                    <div class="input_error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
+                </td>
+                <td>
+                    <!-- <input type="text" name="phone" value="" placeholder="New customer phone XXX XXXXXXXX" style="width: 250px;"/> -->
+                    <input type="text" th:field="*{phone}"/>
+                    <div class="input_error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Name Error</div>
+                </td>
+                <td>
+                    <input type="submit" value="create">
+                </td>
+
+            </tfoot>
+        </form>
+    </table>
+    <div th:if="${customersPage.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{'/customer/list?page=' + ${pageNumber}}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==customersPage.number + 1} ? active">
+        </a>
+    </div>
+</div>
+</body>
+</html>

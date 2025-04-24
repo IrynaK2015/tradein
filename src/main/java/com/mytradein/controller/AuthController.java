@@ -1,0 +1,23 @@
+package com.mytradein.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class AuthController {
+
+
+    public AuthController() {}
+
+
+    @GetMapping("/login")
+    public String loginAuthUser(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logoutPage() {
+        return "redirect:/login";
+    }
+}

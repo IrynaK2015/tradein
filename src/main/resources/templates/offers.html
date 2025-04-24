@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in offers</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <h2>Trade-in offers</h2>
+    <div class="search" style="width: max-content; padding: 10px; border: solid 2px #eeeeee;">
+        <form role="form" th:action="@{/offer/list}" method="get">
+            <div>
+                <span>Customer</span>
+                <select name = "customerid">
+                    <option value=""></option>
+                    <option th:each="customer : ${customerMap}"
+                            th:value="${customer.key}" th:text="${customer.value}"
+                            th:selected="${customer.key.toString() == customerid.toString()}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <span>Seller</span>
+                <select name = "sellerid">
+                    <option value=""></option>
+                    <option th:each="seller : ${sellerMap}"
+                            th:value="${seller.key}" th:text="${seller.value}"
+                            th:selected="${seller.key.toString() == sellerid}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <span>Offer status</span>
+                <span th:if="${isAdmin}">
+                    <select name = "status">
+                        <option value=""></option>
+                        <option th:each="oStatus : ${T(com.mytradein.model.OfferStatuses).values()}"
+                                th:value="${oStatus}" th:text="${oStatus.label}"
+                                th:selected="${searchStatus == oStatus.name()}"></option>
+                    </select>
+                </span>
+                <span th:unless="${isAdmin}">
+                    <span th:text="${statusTitle}"></span>
+                    <input type="hidden" name="status" th:value="${oStatus}"/>
+                </span>
+            </div>
+            <div>
+                <input type="hidden" id="search_page" name="page" value=""/>
+                <span><input type="submit" value="search" id="searchBtn"></span>
+            </div>
+        </form>
+    </div>
+    <p><span th:text="'Found offers: ' + ${offersPage.totalElements}"></span></p>
+    <p th:if="${seller}"></p>
+    <p th:unless="${seller}"></p>
+    <table>
+        <thead>
+        <th>Offer ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Status</th>
+        <th>Customer</th>
+        <th>Desired device</th>
+        <th>Seller</th>
+        <th>Desired price</th>
+        <th>Operations</th>
+        </thead>
+        <tbody>
+        <tr th:each="offer:${offers}">
+            <td><span th:text="${offer.id}"></span></td>
+            <td th:text="${offer.brandmodel.brand.brandname}">/td>
+            <td th:text="${offer.brandmodel.modelname}"></td>
+            <td th:text="${offer.offerStatus}"></td>
+            <td>
+                <span th:text="${offer.customer.firstname}"></span>&nbsp;
+                <span th:text="${offer.customer.lastname}"></span>
+            </td>
+            <td th:text="${offer.desiredDevice}"></td>
+            <td th:text="${offer.authuser.username}"></td>
+            <td th:text="${offer.customerPrice}"></td>
+            <td class="operations">
+                <span>
+                    <form role="form" th:action="@{/offer/{id}(id=${offer.id})}" method="get">
+                        <input type="submit" value="edit">
+                    </form>
+                </span>
+                <span>
+                    <form role="form" th:action="@{/offer/{id}/delete(id=${offer.id})}" method="post">
+                        <input type="submit" value="delete" onclick="return confirm('Are you sure you want to delete this item?');">
+                    </form>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+        <form th:action="@{/offer}" method="get">
+            <tfoot th:if="${customerid ne null}">
+                <td colspan="8">&nbsp</td>
+                <td class="operations">
+                    <input type="hidden" name="customerid"  th:value="${customerid}"/>
+                    <input type="submit" value="create offer">
+                </td>
+            </tfoot>
+        </form>
+    </table>
+    <div th:if="${offersPage.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+        <a onclick="getElementById('search_page').value=this.innerText; getElementById('searchBtn').click();"
+           th:text=${pageNumber}
+           th:class="${pageNumber==offersPage.number + 1} ? active">
+        </a>
+    </div>
+</div>
+</body>
+</html>

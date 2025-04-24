@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Unprocessiable request</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <h2>Error - can't be executed</h2>
+    <div class="error">
+        Executing <span th:text="${entry}"> entry error, </span> <span th:text="${msg}"></span>
+    </div>
+</div>
+</body>
+</html>

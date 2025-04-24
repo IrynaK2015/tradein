@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in customers</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <div class="form">
+        <h2>Edit customer</h2>
+        <form role="form" th:action="@{/customer/save}" method="post" th:object="${customerDTO}">
+            <p>All fields below are mandatory</p>
+            <div>
+                <label>First name</label>
+                <input type="text" name="firstname" th:value="*{firstname}"/>
+                <div class="input_error"  th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">Name Error</div>
+            </div>
+            <div>
+                <label>Last name</label>
+                <input type="text" name="lastname" th:value="*{lastname}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Name Error</div>
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="text" name="email" th:value="*{email}">
+                <div class="input_error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
+            </div>
+            <div>
+                <label>Phone</label>
+                <input type="text" name="phone" th:value="*{phone}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Name Error</div>
+            </div>
+            <div>
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="submit" value="save">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

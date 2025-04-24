@@ -1,0 +1,137 @@
+body {
+    font-family: sans-serif;
+}
+h1 {
+    font-size: 1.5em;
+}
+h2 {
+    font-size: 1.3em;
+}
+h3 {
+    font-size: 1.1em;
+}
+div.container {
+    position: absolute;
+    left: 100px;
+    top: 40px;
+    width: 70%;
+}
+.pnew a:link, a:visited {
+    background-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.9);
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+a:hover, a:active {
+    background-color: #ececec;
+}
+table, td, th {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: black;
+    padding: 5px 10px;
+}
+table th {
+    text-align: left;
+}
+table {
+    width: auto;
+    border-collapse: collapse;
+}
+table a:link, a:visited {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.9);
+}
+table a:hover, a:active {
+    background-color: #ececec;
+}
+.form div {
+    padding: 10px 20px;
+}
+.form div label {
+    width: 200px;
+    display:inline-block
+}
+.form div input[type="text"], input[type="password"], select {
+    width: 200px;
+    border: 1px solid #717171;
+    border-radius: 5px;
+}
+.form div input[type="submit"] {
+    border: 1px solid #717171;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+.form div.input_error {
+    color: red;
+    display: inline-block;
+    margin-left: 20px;
+}
+div.error {
+    color: red;
+    padding: 10px 20px;
+}
+
+ul.menu {
+    list-style-type: none;
+    margin: 0 0 20px 0;
+    padding: 10px 0;
+    overflow: hidden;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.9);
+}
+.menu li {
+    float: left;
+    padding: 10px 20px;
+    margin-right: 15px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: 1px solid #535353;
+    border-radius: 5px;
+    width: 100px;
+}
+.menu li.user {
+    background-color: white;
+    margin-right: 30px;
+    width: auto;
+}
+.menu li a:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.menu li a.active {
+    float: right;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+td.operations span {
+    display: inline-block;
+    margin-right: 10px
+}
+
+div.search div, span {
+    display: inline-block;
+    margin-right: 10px
+}
+
+div.buttons {
+    display:inline-block
+}
+
+div.pagination {
+    margin: 20px 10px;
+    float: left;
+    padding: 5px 10px;
+    border: 1px solid #989898;
+    border-radius: 3px;
+    width: 10px;
+}
+
+div.pagination a.active {
+    background-color: white;
+    color: #afafaf;
+}

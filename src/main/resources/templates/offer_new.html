@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in offers</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <div class="form">
+        <h2>Manage customer</h2>
+        <form role="form" th:action="@{/offer}" method="post" th:object="${offerDTO}">
+            <p>All fields below are mandatory</p>
+            <div>
+                <label>Customer</label>
+                <div th:text="${customer.firstname} + ' ' + ${customer.lastname}" style="display:inline-block"></div>
+                <input type="hidden" name="customerid" th:value="${customer.id}"/>
+            </div>
+            <div>
+                <label>Brand and model</label>
+                <select name = "brandmodelid">
+                    <option th:each="modelel : ${modelList}"
+                            th:value="${modelel.getKey()}" th:text="${modelel.getValue()}"></option>
+                </select>
+                <div class="input_error" th:if="${#fields.hasErrors('brandmodelid')}" th:errors="*{brandmodelid}"></div>
+            </div>
+            <div>
+                <label>IMEI</label>
+                <input type="text" name="imei" th:value="*{imei}"/>
+                <!-- <div class="input_error" th:if="${#fields.hasErrors('imei')}" th:errors="*{imei}">Name Error</div> -->
+                <div class="input_error" th:errors="*{imei}">Name Error</div>
+            </div>
+            <div>
+                <label>Construction year</label>
+                <input type="text" name="constractionyear" th:value="*{constractionyear}">
+                <div class="input_error" th:if="${#fields.hasErrors('constractionyear')}" th:errors="*{constractionyear}"></div>
+            </div>
+            <div>
+                <label>Device condition</label>
+                <select name = "condition">
+                    <option th:each="cond : ${T(com.mytradein.model.DeviceConditions).values()}"
+                            th:value="${cond}" th:text="${cond.label}"></option>
+                </select>
+                <div class="input_error" th:if="${#fields.hasErrors('condition')}" th:errors="*{condition}"></div>
+            </div>
+            <div>
+                <label>Device color</label>
+                <input type="text" name="color" th:value="*{color}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+            </div>
+            <div>
+                <label>Device capacity</label>
+                <input type="text" name="capacity" th:value="*{capacity}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+            </div>
+            <div>
+                <label>Desired device</label>
+                <input type="text" name="desireddevice" th:value="*{desireddevice}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('desireddevice')}" th:errors="*{desireddevice}"></div>
+            </div>
+            <div>
+                <label>Customer price, UAH</label>
+                <input type="text" name="customerprice" th:value="*{customerprice}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('customerprice')}" th:errors="*{customerprice}"></div>
+            </div>
+            <div>
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="sellerid" th:value="${sellerid}"/>
+                <input type="hidden" name="offerstatus" th:value="${T(com.mytradein.model.OfferStatuses).NEW}"/>
+                <input type="submit" value="save">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

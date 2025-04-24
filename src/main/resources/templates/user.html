@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Seller management</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <div class="form">
+        <h2>Manage seller</h2>
+        <form role="form" th:object="${authUser}" th:action="@{/user/{id}(id=${id})}" method="post">
+            <p>Fill password if case of change only</p>
+            <div>
+                <label>Username</label>
+                <input type="text" name="username" th:value="${authUser.username}"/>
+            </div>
+            <div>
+                <label>User email</label>
+                <input type="text" name="email"  th:value="${authUser.email}"/>
+            </div>
+            <div>
+                <label>User role</label>
+                <span th:if="${rolePermitted}">
+                    <select name = "role">
+                        <option th:each="erole : ${T(com.mytradein.model.AuthRoles).values()}"
+                            th:value="${erole}" th:text="${erole.label}"
+                            th:selected="${authUser.role == erole.name()}"></option>
+                    </select>
+                </span>
+                <span th:unless="${rolePermitted}">
+                    <span th:text="${roleTitle}"></span>
+                    <input type="hidden" name="role" th:value="${authUser.role}"/>
+                </span>
+            </div>
+            <div>
+                <label>Full name</label>
+                <input type="text" name="fullname"  th:value="*{fullName}"/>
+            </div>
+            <div style="margin-top: 20px">
+                <label>New password</label>
+                <input type="password" name="password"/>
+            </div>
+            <div>
+                <label>Repeat password</label>
+                <input type="password" name="password1"/>
+            </div>
+            <div>
+                <input type="submit" value="save changes">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Info Page</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <div class="form">
+        <h2>Edit customer</h2>
+        <form role="form" th:action="@{/remind/save}" method="post">
+            <div style="margin-top: 20px">
+                <label>New password</label>
+                <input type="password" name="password"/>
+            </div>
+            <div>
+                <label>Repeat password</label>
+                <input type="password" name="password1"/>
+            </div>
+            <div>
+                <input type="hidden" name="token" th:value="${token}"/>
+                <input type="submit" value="save">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

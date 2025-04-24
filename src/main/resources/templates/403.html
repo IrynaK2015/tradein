@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Forbidden</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <h2>Error - request forbidden</h2>
+    <div class="error">
+        Requested operation with <span th:text="${entry}"></span> is forbidden.
+    </div>
+</div>
+</body>
+</html>

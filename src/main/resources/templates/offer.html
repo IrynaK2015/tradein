@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in offers</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <div class="form">
+        <form role="form" th:action="@{/offer/save}" method="post" th:object="${offerDTO}">
+            <h2>Manage offer <span th:text="*{id}"></span></h2>
+            <p>All fields below are mandatory</p>
+            <div>
+                <label>Customer</label>
+                <a th:href="@{/offer/list?customerid={id}(id=${customer.id})}" title = "Get models">
+                    <span span th:text="${customer.firstname} + ' ' + ${customer.lastname}" style="display:inline-block"></span>
+                </a>
+                <input type="hidden" name="customerid" th:value="${customer.id}"/>
+            </div>
+            <div>
+                <label>Brand and model</label>
+                <select name = "brandmodelid">
+                    <option th:each="modelel : ${modelList}"
+                            th:value="${modelel.key}" th:text="${modelel.value}"
+                            th:selected="${modelel.key.toString() == offerDTO.brandmodelid}">
+                    </option>
+                </select>
+                <div class="input_error" th:if="${#fields.hasErrors('brandmodelid')}" th:errors="*{brandmodelid}"></div>
+            </div>
+            <div>
+                <label>IMEI</label>
+                <input type="text" name="imei" th:value="*{imei}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('imei')}" th:errors="*{imei}">Name Error</div>
+            </div>
+            <div>
+                <label>Construction year</label>
+                <input type="text" name="constractionyear" th:value="*{constractionyear}">
+                <div class="input_error" th:if="${#fields.hasErrors('constractionyear')}" th:errors="*{constractionyear}"></div>
+            </div>
+            <div>
+                <label>Device condition</label>
+                <select name = "condition">
+                    <option th:each="cond : ${T(com.mytradein.model.DeviceConditions).values()}"
+                            th:value="${cond}" th:text="${cond.label}"
+                            th:selected="${offerDTO.condition == cond.name()}">
+                    </option>
+                </select>
+                <div class="input_error" th:if="${#fields.hasErrors('condition')}" th:errors="*{condition}"></div>
+            </div>
+            <div>
+                <label>Device color</label>
+                <input type="text" name="color" th:value="*{color}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+            </div>
+            <div>
+                <label>Device capacity</label>
+                <input type="text" name="capacity" th:value="*{capacity}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+            </div>
+            <div>
+                <label>Desired device</label>
+                <input type="text" name="desireddevice" th:value="*{desireddevice}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('desireddevice')}" th:errors="*{desireddevice}"></div>
+            </div>
+            <div>
+                <label>Customer price, UAH</label>
+                <input type="text" name="customerprice" th:value="*{customerprice}"/>
+                <div class="input_error" th:if="${#fields.hasErrors('customerprice')}" th:errors="*{customerprice}"></div>
+
+                <span th:if="${isAdmin}">
+                    <label style="margin-left: 40px">Purchase price, UAH</label>
+                    <input type="text" name="purchaseprice" th:value="*{purchaseprice}"/>
+                    <div class="input_error" th:if="${#fields.hasErrors('purchaseprice')}" th:errors="*{purchaseprice}"></div>
+                 </span>
+                <span th:unless="${isAdmin}">
+                    <input th:unless="${isAdmin}" type="hidden" name="purchaseprice" th:value="*{purchaseprice}"/>
+                 </span>
+            </div>
+            <div>
+                <label>Offer status</label>
+                <span th:if="${isAdmin}">
+                    <select name = "offerstatus">
+                    <!-- <option th:each="stat : ${T(com.mytradein.model.OfferStatuses).values()}"
+                            th:value="${stat}" th:text="${stat.label}"
+                            th:selected="${offerDTO.offerstatus == stat.name()}">
+                    </option> -->
+                    <option th:each="stat : ${offerMap}"
+                            th:value="${stat.key}" th:text="${stat.value}"
+                            th:selected="${offerDTO.offerstatus == stat.key}">
+                    </option>
+                </select>
+                </span>
+                <span th:unless="${isAdmin}">
+                    <input type="text" name="offerstatus" th:value="*{offerstatus}"/>
+                </span>
+            </div>
+            <div>
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="sellerid" th:value="*{sellerid}"/>
+                <input type="submit" value="save">
+            </div>
+        </form>
+    </div>
+    <div class="form">
+        <div class="buttons" th:if="${allowProcess}">
+            <form role="form" th:action="@{/offer/status}" method="post" th:object="${offerDTO}">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="newStatus" th:value="${T(com.mytradein.model.OfferStatuses).PROCESSING}"/>
+                <input type="submit" value="process">
+            </form>
+        </div>
+        <div class="buttons" th:if="${allowApprove}">
+            <form role="form" th:action="@{/offer/status}" method="post" th:object="${offerDTO}">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="newStatus" th:value="${T(com.mytradein.model.OfferStatuses).APPROVED}"/>
+                <input type="submit" value="approve">
+            </form>
+        </div>
+        <div class="buttons" th:if="${allowReject}">
+            <form role="form" th:action="@{/offer/status}" method="post" th:object="${offerDTO}">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="newStatus" th:value="${T(com.mytradein.model.OfferStatuses).REJECTED}"/>
+                <input type="submit" value="reject">
+            </form>
+        </div>
+        <div class="buttons" th:if="${allowPurchase}">
+            <form role="form" th:action="@{/offer/status}" method="post" th:object="${offerDTO}">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <input type="hidden" name="newStatus" th:value="${T(com.mytradein.model.OfferStatuses).PURCHASED}"/>
+                <input type="submit" value="purchase">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

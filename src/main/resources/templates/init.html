@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Init project</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <h2>Init project protocol</h2>
+    <p th:text="${test}"></p>
+    <div class="error" th:if="${errors.size() > 0}">
+        <ul th:each="ierror : ${errors}">
+            <li th:text="${ierror}"></li>
+        </ul>
+    </div>
+    <div th:if="${success.size() > 0}" style="margin-left: 20px">
+        <ul th:each="sitem : ${success}">
+            <li th:text="${sitem}"></li>
+        </ul>
+    </div>
+    <div th:if="${defaultAuth}">
+        <p>Please click button to login with default user "admin" credentials.<br>
+            Then create your real admin account and remove default one.
+        </p>
+        <div class="form">
+            <form role="form" action="/dologin" method="post">
+                <input type="hidden" name="username" th:value="${defaultAuth}"/>
+                <input type="hidden" name="password" th:value="${defaultAuth}"/>
+                <input type="submit" value="login">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

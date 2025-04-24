@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Conflict</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <h2>Error - executing conflict</h2>
+    <div class="error">
+        <span th:text="${entry}"> conflict, </span> <span th:text="${msg}"></span>
+    </div>
+</div>
+</body>
+</html>

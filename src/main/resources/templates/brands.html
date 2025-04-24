@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trade-in brands</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/menu::menu(username=${username})"></div>
+    <div th:if="${error ne null}" class="error">
+        <span th:text="${error}"></span>
+    </div>
+    <h2>Trade-in brands</h2>
+    <p><span th:text="'Found brands: ' + ${brands.size()}"></span></p>
+    <table>
+        <thead>
+        <th width="15%">Brand name</th>
+        <th width="15%">Is enabled for trade-in</th>
+        <th width="15%">Operations</th>
+        </thead>
+        <tbody>
+        <tr th:each="brand:${brands}">
+            <td>
+                <a th:href="@{/brand/{id}/list((id=${brand.id}))}" title = "Get models">
+                    <span th:text="${brand.brandname}"></span>
+                </a>
+            </td>
+            <td th:if="${brand.enabled}">yes</td>
+            <td th:unless="${brand.enabled}">no</td>
+            <td>
+                <div th:if="${isAdmin}">
+                <span th:if="${brand.enabled}" style="display: inline-block;">
+                    <form role="form" action="/brand/save" method="post">
+                        <input type="hidden" name="id"  th:value="${brand.id}"/>
+                        <input type="hidden" name="enable" value="N"/>
+                        <input type="submit" value="disable">
+                    </form>
+                </span>
+                <span th:unless="${brand.enabled}" style="display: inline-block;">
+                    <form role="form" action="/brand/save" method="post">
+                        <input type="hidden" name="id"  th:value="${brand.id}"/>
+                        <input type="hidden" name="enable" value="Y"/>
+                        <input type="submit" value="enable">
+                    </form>
+                </span>
+                <span  style="display: inline-block; margin-left: 10px">
+                    <form role="form" action="/brand/delete" method="post">
+                        <input type="hidden" name="id"  th:value="${brand.id}"/>
+                        <input type="submit" value="delete"  onclick="return confirm('Are you sure you want to delete this item?');">
+                    </form>
+                </span>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot th:if="${isAdmin}">
+            <form role="form" action="/brand/new" method="post">
+                <td>
+                    <input type="text" name="brandname" value="" placeholder="New brand name"/>
+                </td>
+                <td>
+                    <input type="hidden" name="enable" value="N"/>
+                </td>
+                <td>
+                    <input type="submit" value="create">
+                </td>
+            </form>
+        </tfoot>
+    </table>
+</div>
+</body>
+</html>
