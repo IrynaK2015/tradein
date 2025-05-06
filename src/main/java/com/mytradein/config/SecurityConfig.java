@@ -1,5 +1,6 @@
 package com.mytradein.config;
 
+import com.mytradein.service.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,25 +19,25 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-                .requestMatchers("/styles/**", "/api/offer/**", "/remind/**", "/init").permitAll()
+                .requestMatchers(Constants.PATH_STYLES, Constants.PATH_API, Constants.PATH_REMINDER, Constants.PATH_INIT).permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/unauthorized")
+                    .accessDeniedPage(Constants.PATH_UNAUTHORIZED)
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/dologin")
-                    .failureUrl("/login?error")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/offer/list", true)
+                    .loginPage(Constants.PATH_LOGIN)
+                    .loginProcessingUrl(Constants.PATH_DOLOGIN)
+                    .failureUrl(Constants.PATH_FAILED_LOGIN)
+                    .usernameParameter(Constants.PARAM_LOGIN)
+                    .passwordParameter(Constants.PARAM_PASSWORD)
+                    .defaultSuccessUrl(Constants.PATH_DEFAULT_SUCCESS, true)
                         .permitAll()
                 .and()
                     .logout()
                     .permitAll()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login");
+                    .logoutUrl(Constants.PATH_LOGOUT)
+                    .logoutSuccessUrl(Constants.PATH_LOGIN);
 
         return http.build();
     }
