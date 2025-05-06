@@ -24,7 +24,7 @@ public interface OfferRepository extends JpaRepository<Offer, Long>, JpaSpecific
     @Query("SELECT o FROM Offer o WHERE o.authuser = :authuser")
     public List<Offer> findBySeller(@Param("authUser") AuthUser authUser);
 
-    @Query("SELECT o FROM Offer o WHERE o.offerStatus = :status ORDER BY created ASC")
+    @Query("SELECT o FROM Offer o WHERE o.offerStatus = :status ORDER BY o.created ASC")
     public List<Offer> findByStatusOrderByCreatedAsc(@Param("status") String status);
 
     @Query("SELECT o FROM Offer o WHERE o.imei = :imei")

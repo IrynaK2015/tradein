@@ -1,10 +1,7 @@
 package com.mytradein.controller;
 
 import com.mytradein.model.*;
-import com.mytradein.service.AuthUserService;
-import com.mytradein.service.AuthtokenService;
-import com.mytradein.service.BrandModelService;
-import com.mytradein.service.Utilities;
+import com.mytradein.service.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -70,8 +67,8 @@ public class InitController
         }
         else success.add("Brands and models exist");
 
-        String apiLogin = "extUser##";
-        String apiPassword = "extUserPass!!";
+        String apiLogin = Constants.API_LOGIN;
+        String apiPassword = Constants.API_PASSWORD;
         if (!authtokenService.isApiTokenConfigured()) {
             isIgnored = false;
             try {

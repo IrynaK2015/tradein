@@ -173,4 +173,12 @@ public class Offer {
     public void setOfferStatus(String offerStatus) {
         this.offerStatus = offerStatus;
     }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 }
