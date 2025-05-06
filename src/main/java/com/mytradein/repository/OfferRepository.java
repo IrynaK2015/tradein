@@ -33,7 +33,9 @@ public interface OfferRepository extends JpaRepository<Offer, Long>, JpaSpecific
     @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM Offer o WHERE o.brandmodel = :brandmodel")
     boolean existsByBrandmodel(@Param("brandmodel") Brandmodel brandmodel);
 
-    long countOffersByAuthuser(AuthUser authuser);
+    @Query("SELECT COUNT(o) FROM Offer o WHERE o.authuser = :authuser")
+    long countOffersByAuthuser(@Param("authuser") AuthUser authuser);
 
-    long countOffersByCustomer(Customer customer);
+    @Query("SELECT COUNT(o) FROM Offer o WHERE o.customer = :customer")
+    long countOffersByCustomer(@Param("customer") Customer customer);
 }
