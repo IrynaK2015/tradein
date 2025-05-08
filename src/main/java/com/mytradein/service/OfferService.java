@@ -9,30 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 public interface OfferService {
-    public List<Offer> findBySellerAndStatus(String status, AuthUser authUser, Pageable pageable);
+    List<Offer> findBySellerAndStatus(String status, AuthUser authUser, Pageable pageable);
 
-    public Page<Offer> searchOffers(Map<String, Object> searchMap, Pageable pageable);
+    Page<Offer> searchOffers(Map<String, Object> searchMap, Pageable pageable);
 
-    @Transactional(readOnly=true)
-    public Offer findById(Long id);
+    Offer findById(Long id);
 
-    @Transactional(readOnly=true)
-    public Offer findByImei(String imei);
+    Offer findByImei(String imei);
 
-    @Transactional
-    public void save(Offer offer);
+    void save(Offer offer);
 
-    @Transactional
-    public void delete(Offer offer);
+    void delete(Offer offer);
 
-    @Transactional(readOnly=true)
-    public long countSellerOffers(AuthUser authUser);
+    long countSellerOffers(AuthUser authUser);
 
-    @Transactional(readOnly=true)
-    public long countCustomerOffers(Customer customer);
+    long countCustomerOffers(Customer customer);
 
-    @Transactional(readOnly=true)
-    public boolean isModelOffersFound(Brandmodel brandmodel);
+    boolean isModelOffersFound(Brandmodel brandmodel);
 
-    public Map getNextOfferStatuses(String currentOfferStatus);
+    Map getNextOfferStatuses(String currentOfferStatus);
 }

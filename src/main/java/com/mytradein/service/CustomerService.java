@@ -1,59 +1,25 @@
 package com.mytradein.service;
 
 import com.mytradein.model.Customer;
-import com.mytradein.repository.CustomerRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
-@Service
-public class CustomerService {
-    private final CustomerRepository customerRepository;
+public interface CustomerService {
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    void addCustomer(Customer customer);
 
-    @Transactional
-    public void addCustomer(Customer customer) {
-        customerRepository.save(customer);
-    }
+    void saveCustomer(Customer customer);
 
-    @Transactional
-    public void saveCustomer(Customer customer) {
-        customerRepository.save(customer);
-    }
+    void deleteCustomer(Customer customer);
 
-    @Transactional
-    public void deleteCustomer(Customer custom) {
-        customerRepository.delete(custom);
-    }
+    Page findAllCustomers(Pageable pageable);
 
-    @Transactional(readOnly=true)
-    public Page findAllCustomers(Pageable pageable) {
-        return customerRepository.findAll(pageable);
-    }
+    Customer findCustomerById(Long id);
 
-    @Transactional(readOnly=true)
-    public Customer findCustomerById(Long id) {
-        return customerRepository.findById(id).orElse(null);
-    }
+    Customer findCustomerByEmail(String email);
 
-    @Transactional(readOnly=true)
-    public Customer findCustomerByEmail(String email) {
-        return customerRepository.findByEmail(email);
-    }
+    Customer findCustomerByPhone(Long phone);
 
-    @Transactional(readOnly=true)
-    public Customer findCustomerByPhone(Long phone) {
-        return customerRepository.findByPhone(phone);
-    }
-
-    @Transactional(readOnly=true)
-    public boolean isCustomerExist(Customer customer) {
-        return customerRepository.existsById(customer.getId());
-    }
+    boolean isCustomerExist(Customer customer);
 }

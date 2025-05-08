@@ -1,6 +1,7 @@
 package com.mytradein.service;
 
 import com.mytradein.model.AuthUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,11 +15,8 @@ import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final AuthUserService authUserService;
-
-    public UserDetailsServiceImpl(AuthUserService authUserService) {
-        this.authUserService = authUserService;
-    }
+    @Autowired
+    private AuthUserService authUserService;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

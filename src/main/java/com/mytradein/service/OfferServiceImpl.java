@@ -19,10 +19,6 @@ public class OfferServiceImpl implements OfferService {
     @Autowired
     private OfferRepository offerRepository;
 
-    /*public OfferServiceImpl(OfferRepository offerRepository) {
-        this.offerRepository = offerRepository;
-    }*/
-
     public List<Offer> findBySellerAndStatus(String status, AuthUser authUser, Pageable pageable) {
         return offerRepository.findBySellerAndStatus(status, authUser);
     }
