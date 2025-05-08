@@ -109,8 +109,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.google.cloud.sql</groupId>
-			<artifactId>cloud-sql-connector-r2dbc-postgres</artifactId>
-			<version>1.17.1</version>
+			<artifactId>postgres-socket-factory</artifactId>
+			<version>1.24.1</version>
 		</dependency>
 	</dependencies>
 

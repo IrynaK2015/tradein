@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.domain.Specification;
 
 public class OfferServiceTest {
 
@@ -22,7 +21,7 @@ public class OfferServiceTest {
     private OfferRepository offerRepository;
 
     @InjectMocks
-    private OfferService offerService;
+    private OfferServiceImpl offerService;
 
     @BeforeEach
     public void setUp() {
